@@ -1,11 +1,19 @@
 ﻿using System.CommandLine;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Unicode;
 using Localization.Common;
 
 namespace ffpw_localization;
 class Program
 {
+    private static readonly JsonSerializerOptions SerializerOptions = new()
+    {
+        WriteIndented = true,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+    };
     static async Task Main(string[] args)
     {
         DisplayLicenseInfo();
@@ -99,7 +107,6 @@ class Program
         var outputDirectory = Path.Combine(opts.DirectoryPath, "locales");
         Directory.CreateDirectory(outputDirectory);
 
-        var stringLiterals = new List<string>();
 
         try
         {
@@ -115,12 +122,10 @@ class Program
                 processedFiles++;
                 DrawProgressBar(processedFiles, totalFiles, opts.ProgressBarStyle);
             }
-            stringLiterals.AddRange(analyser.Literals);
-            var filteredStringLiterals = stringLiterals
+            var filteredStringLiterals = analyser.Literals
                 .Where(str =>
                     !string.IsNullOrWhiteSpace(str) && str.Length >= opts.MinLength &&
                     (!opts.ExcludeSpecialCharsOnly || str.Any(char.IsLetterOrDigit)))
-                .Distinct()
                 .ToDictionary(str => str, str => "");
 
             var excludeLanguages = ParseLanguages(opts.ExcludeLanguages);
@@ -132,14 +137,22 @@ class Program
                 {
                     continue;
                 }
-                
-                var json = JsonSerializer.Serialize(filteredStringLiterals, new JsonSerializerOptions()
-                {
-                    WriteIndented = true,
-                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-                });
-
                 var outputFilePath = Path.Combine(outputDirectory, $"{opts.FileName}.{lang.ToString().ToLower()}.json");
+                Dictionary<string, string> outDict;
+                if (File.Exists(outputFilePath))
+                {
+                    outDict =
+                        JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(outputFilePath),SerializerOptions) ??
+                        new();
+                    foreach (var literal in filteredStringLiterals)
+                    {
+                        outDict.TryAdd(literal.Key, literal.Value);
+                    }
+                }
+                else
+                    outDict = filteredStringLiterals;
+                var json = JsonSerializer.Serialize(outDict, SerializerOptions);
+
                 File.WriteAllText(outputFilePath, json);
             }
 
