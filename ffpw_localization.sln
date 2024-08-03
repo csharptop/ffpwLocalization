@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ffpw_localization", "ffpw_localization\ffpw_localization.csproj", "{19F8723D-C5C7-4BB3-BDEB-6164443AB82B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization.Common", "Localization.Common\Localization.Common.csproj", "{B5437CEE-B1C1-49AB-A2F7-2FAC37B29A8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{19F8723D-C5C7-4BB3-BDEB-6164443AB82B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19F8723D-C5C7-4BB3-BDEB-6164443AB82B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19F8723D-C5C7-4BB3-BDEB-6164443AB82B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5437CEE-B1C1-49AB-A2F7-2FAC37B29A8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5437CEE-B1C1-49AB-A2F7-2FAC37B29A8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5437CEE-B1C1-49AB-A2F7-2FAC37B29A8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5437CEE-B1C1-49AB-A2F7-2FAC37B29A8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
