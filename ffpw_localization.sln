@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ffpw_localization", "ffpw_l
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization.Common", "Localization.Common\Localization.Common.csproj", "{B5437CEE-B1C1-49AB-A2F7-2FAC37B29A8C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization.Loader", "Localization.Loader\Localization.Loader.csproj", "{D7C00F99-D2EF-4D88-A5B1-88B2720BE5D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B5437CEE-B1C1-49AB-A2F7-2FAC37B29A8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5437CEE-B1C1-49AB-A2F7-2FAC37B29A8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5437CEE-B1C1-49AB-A2F7-2FAC37B29A8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7C00F99-D2EF-4D88-A5B1-88B2720BE5D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7C00F99-D2EF-4D88-A5B1-88B2720BE5D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7C00F99-D2EF-4D88-A5B1-88B2720BE5D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7C00F99-D2EF-4D88-A5B1-88B2720BE5D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

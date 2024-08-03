@@ -1,7 +1,4 @@
 ﻿using System.CommandLine;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Localization.Common;
@@ -106,23 +103,19 @@ class Program
 
         try
         {
-            var files = Directory.GetFiles(opts.DirectoryPath, "*.cs", SearchOption.AllDirectories);
+            var files = Directory.GetFiles(opts.DirectoryPath, "*.csproj", SearchOption.AllDirectories);
             int totalFiles = files.Length;
             int processedFiles = 0;
+            ProjectAnalyser analyser = new();
 
             foreach (var file in files)
             {
-                var code = File.ReadAllText(file);
-                SyntaxTree tree = CSharpSyntaxTree.ParseText(code);
-                var root = (CompilationUnitSyntax)tree.GetRoot();
-                var stringLiteralFinder = new StringLiteralFinder();
-                stringLiteralFinder.Visit(root);
-                stringLiterals.AddRange(stringLiteralFinder.StringLiterals.Select(lit => lit.Token.ValueText));
-
+                analyser.Run(file).Wait();
+                
                 processedFiles++;
                 DrawProgressBar(processedFiles, totalFiles, opts.ProgressBarStyle);
             }
-
+            stringLiterals.AddRange(analyser.Literals);
             var filteredStringLiterals = stringLiterals
                 .Where(str =>
                     !string.IsNullOrWhiteSpace(str) && str.Length >= opts.MinLength &&
@@ -169,7 +162,7 @@ class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"An error occurred: {ex.Message}");
+            Console.WriteLine($"An error occurred: {ex}");
             LogError(ex);
         }
     }
