@@ -2,7 +2,8 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Localization.Common;
 
 namespace ffpw_localization;
@@ -138,12 +139,11 @@ class Program
                 {
                     continue;
                 }
-
-                var json = JsonConvert.SerializeObject(filteredStringLiterals, new JsonSerializerSettings
+                
+                var json = JsonSerializer.Serialize(filteredStringLiterals, new JsonSerializerOptions()
                 {
-                    Formatting = Formatting.Indented,
-                    TypeNameHandling = TypeNameHandling.None,
-                    MetadataPropertyHandling = MetadataPropertyHandling.Ignore
+                    WriteIndented = true,
+                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
                 });
 
                 var outputFilePath = Path.Combine(outputDirectory, $"{opts.FileName}.{lang.ToString().ToLower()}.json");
