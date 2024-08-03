@@ -15,6 +15,9 @@ public class Localizer:ILocalizer
     public string Get(string literal)
     {
         var d = loader.Get(CurrentLanguage);
-        return d.GetValueOrDefault(literal, literal);
+        var result = d.GetValueOrDefault(literal, "");
+        if (string.IsNullOrEmpty(result))
+            return literal;
+        return result;
     }
 }
