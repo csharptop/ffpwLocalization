@@ -19,9 +19,11 @@ public class LazyLocalizationLoader:ILocalizationLoader
     {
         if (loaded.ContainsKey(language)) return loaded[language];
         var path = Path.Combine(localesPath, $"{filename}.{language.ToString().ToLower()}.json");
-        if (!File.Exists(path))
-            throw new Exception($"{path} does not exist");
-        var dict = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(path));
-        return loaded[language] = dict ?? throw new Exception("json is null");
+        if (File.Exists(path))
+        {
+            var dict = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(path));
+            return loaded[language] = dict ?? new();
+        }
+        return new();
     }
 }
